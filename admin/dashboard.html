@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — DentiNexa AI</title>
+<link rel="stylesheet" href="../css/main.css">
+<link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html" class="brand"><span>DentiNexa<em>AI</em></span></a>
+    <nav class="sidebar-nav">
+      <a href="#overview" class="nav-link active" data-tab="panel-overview">
+        <img class="icon" src="../assets/icons/nav-grid.svg" alt="Overview" width="18" height="18">
+        Overview
+      </a>
+      <a href="#users" class="nav-link" data-tab="panel-users">
+        <img class="icon" src="../assets/icons/nav-users.svg" alt="Patients" width="18" height="18">
+        Users & Staff
+      </a>
+      <a href="#audit" class="nav-link" data-tab="panel-audit">
+        <img class="icon" src="../assets/icons/nav-file-lines.svg" alt="Notes" width="18" height="18">
+        Audit Logs
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebar-avatar"></div>
+        <div>
+          <div class="sidebar-user-name" id="sidebar-user-name"></div>
+          <div class="sidebar-user-role" id="sidebar-user-role"></div>
+        </div>
+      </div>
+      <button class="btn btn-ghost btn-sm btn-block" id="logout-btn">Log out</button>
+    </div>
+  </aside>
+
+  <div>
+    <header class="topbar">
+      <div class="flex items-center gap-16">
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+          <img class="icon" src="../assets/icons/icon-menu.svg" alt="Menu" width="22" height="22">
+        </button>
+        <h1>Admin Dashboard</h1>
+      </div>
+      <div class="topbar-actions">
+        <button class="theme-toggle" aria-label="Toggle dark mode"></button>
+        <button class="btn btn-primary btn-sm" id="add-staff-btn"><span class="btn-label-full">+ Add staff account</span><span class="btn-label-short">+ Add staff</span></button>
+      </div>
+    </header>
+
+    <main class="dashboard-main">
+      <!-- OVERVIEW -->
+      <section id="panel-overview">
+        <div class="stats-grid">
+          <div class="card stat-card"><div class="stat-label">Total patients</div><div class="stat-value" id="stat-patients">0</div></div>
+          <div class="card stat-card"><div class="stat-label">Total dentists</div><div class="stat-value" id="stat-dentists">0</div></div>
+          <div class="card stat-card"><div class="stat-label">Upcoming appointments</div><div class="stat-value" id="stat-upcoming">0</div></div>
+          <div class="card stat-card"><div class="stat-label">Outstanding balance</div><div class="stat-value" id="stat-outstanding">$0</div></div>
+        </div>
+        <div class="card" style="padding:24px;">
+          <h2 class="mb-16">Appointments by status</h2>
+          <div id="status-breakdown"></div>
+        </div>
+      </section>
+
+      <!-- USERS -->
+      <section id="panel-users" class="hidden">
+        <div class="tabs">
+          <button class="tab-btn active" data-target="users-all">All Users</button>
+        </div>
+        <div id="users-all">
+          <div class="card">
+            <div class="data-table-wrap">
+              <table class="data-table">
+                <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Joined</th><th></th></tr></thead>
+                <tbody id="users-table-body"><tr><td colspan="6"><div class="skeleton" style="height:40px;"></div></td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AUDIT LOGS -->
+      <section id="panel-audit" class="hidden">
+        <div class="section-header"><h2>Recent activity</h2></div>
+        <div class="card">
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Time</th><th>User</th><th>Action</th><th>Details</th></tr></thead>
+              <tbody id="audit-table-body"><tr><td colspan="4"><div class="skeleton" style="height:40px;"></div></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="../js/ui.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/dashboard-common.js"></script>
+<script src="../js/speech.js"></script>
+<script src="../js/admin-dashboard.js"></script>
+</body>
+</html>

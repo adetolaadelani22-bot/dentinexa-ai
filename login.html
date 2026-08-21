@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log in — DentiNexa AI</title>
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+<div class="auth-shell">
+  <div class="auth-panel">
+    <a href="index.html" class="brand">
+      <img class="icon" src="assets/icons/logo-tooth.svg" alt="DentiNexa AI" width="26" height="26">
+      <span>DentiNexa<em>AI</em></span>
+    </a>
+    <h1>Welcome back</h1>
+    <p class="text-muted mb-24">Log in to manage appointments, records, and more.</p>
+  
+
+    <form id="login-form" novalidate>
+      <div class="field" id="field-email">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" autocomplete="email" required>
+        <p class="field-error">Enter a valid email address.</p>
+      </div>
+      <div class="field" id="field-password">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" autocomplete="current-password" required>
+        <p class="field-error">Password is required.</p>
+      </div>
+      <div class="flex justify-between items-center mb-16">
+        <label class="checkbox-row">
+          <input type="checkbox" id="remember" checked> Remember me
+        </label>
+        <a href="#" class="text-sm">Forgot password?</a>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block" id="login-submit">Log in</button>
+    </form>
+
+    <p class="auth-switch">Don't have an account? <a href="register.html">Create one</a></p>
+
+    <div class="demo-creds card">
+    
+      <ul class="demo-list">
+        <li><button type="button" data-email="patient@dentcare.ai">Patient </button></li>
+        <li><button type="button" data-email="dr.amaka@dentcare.ai">Dentist  </button></li>
+        <li><button type="button" data-email="reception@dentcare.ai">Receptionist </button></li>
+        <li><button type="button" data-email="admin@dentcare.ai">Admin</button></li>
+      </ul>
+    </div>
+  </div>
+  <div class="auth-side" aria-hidden="true">
+    <img src="OIP (1).jpg" class="auth-arch" alt="">
+    <div class="auth-side-copy">
+      <h2>Your dental history, all in one place.</h2>
+      <p>Appointments, prescriptions, invoices, and AI guidance — organized around you.</p>
+    </div>
+  </div>
+</div>
+
+<script src="js/ui.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reception Dashboard — DentiNexa AI</title>
+<link rel="stylesheet" href="../css/main.css">
+<link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html" class="brand"><span>DentiNexa<em>AI</em></span></a>
+    <nav class="sidebar-nav">
+      <a href="#requests" class="nav-link" data-tab="panel-requests">
+        <img class="icon" src="../assets/icons/icon-bell-gray.svg" alt="New Requests" width="18" height="18">
+        New Requests
+        <span id="requests-alert-dot" class="nav-alert-dot hidden"></span>
+      </a>
+      <a href="#appointments" class="nav-link active" data-tab="panel-appointments">
+        <img class="icon" src="../assets/icons/nav-calendar.svg" alt="Appointments" width="18" height="18">
+        Appointments
+      </a>
+      <a href="#patients" class="nav-link" data-tab="panel-patients">
+        <img class="icon" src="../assets/icons/nav-users.svg" alt="Patients" width="18" height="18">
+        Patients
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebar-avatar"></div>
+        <div>
+          <div class="sidebar-user-name" id="sidebar-user-name"></div>
+          <div class="sidebar-user-role" id="sidebar-user-role"></div>
+        </div>
+      </div>
+      <button class="btn btn-ghost btn-sm btn-block" id="logout-btn">Log out</button>
+    </div>
+  </aside>
+
+  <div>
+    <header class="topbar">
+      <div class="flex items-center gap-16">
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+          <img class="icon" src="../assets/icons/icon-menu.svg" alt="Menu" width="22" height="22">
+        </button>
+        <h1>Reception Dashboard</h1>
+      </div>
+      <div class="topbar-actions">
+        <button class="theme-toggle" aria-label="Toggle dark mode"></button>
+        <button class="btn btn-primary btn-sm" id="book-for-patient-btn"><span class="btn-label-full">+ Book for patient</span><span class="btn-label-short">+ Book</span></button>
+      </div>
+    </header>
+
+    <main class="dashboard-main">
+      <!-- NEW REQUESTS (from "Book Your First Visit" — unauthenticated intake) -->
+      <section id="panel-requests" class="hidden">
+        <div class="section-header">
+          <h2>New appointment requests</h2>
+        </div>
+        <p class="text-muted text-sm mb-16">
+          Submitted through the public "Book Your First Visit" form. Review each request, then create the patient's
+          account to convert it into a confirmed appointment.
+        </p>
+        <div class="card">
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Submitted</th><th>Name</th><th>Service</th><th>Requested</th><th>Status</th><th></th></tr></thead>
+              <tbody id="requests-table-body"><tr><td colspan="6"><div class="skeleton" style="height:40px;"></div></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- APPOINTMENTS -->
+      <section id="panel-appointments">
+        <div class="stats-grid">
+          <div class="card stat-card">
+            <div class="stat-label">Today</div>
+            <div class="stat-value" id="stat-today">0</div>
+            <div class="stat-sub">Appointments today</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-label">Pending</div>
+            <div class="stat-value" id="stat-pending">0</div>
+            <div class="stat-sub">Awaiting confirmation</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-label">Checked in</div>
+            <div class="stat-value" id="stat-checked-in">0</div>
+            <div class="stat-sub">Currently waiting</div>
+          </div>
+        </div>
+        <div class="section-header">
+          <h2>All appointments</h2>
+          <input type="text" id="appointment-search" placeholder="Search patient name…" style="padding:8px 12px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text-primary);">
+        </div>
+        <div class="card">
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Time</th><th>Patient</th><th>Dentist</th><th>Status</th><th></th></tr></thead>
+              <tbody id="appt-table-body"><tr><td colspan="6"><div class="skeleton" style="height:40px;"></div></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PATIENTS -->
+      <section id="panel-patients" class="hidden">
+        <div class="section-header"><h2>Patients</h2></div>
+        <div class="card">
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Name</th><th>Email</th><th>Phone</th></tr></thead>
+              <tbody id="patients-table-body"><tr><td colspan="3"><div class="skeleton" style="height:40px;"></div></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="../js/ui.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/dashboard-common.js"></script>
+<script src="../js/speech.js"></script>
+<script src="../js/reception-dashboard.js"></script>
+</body>
+</html>

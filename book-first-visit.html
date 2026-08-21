@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Your First Visit — DentiNexa AI</title>
+<meta name="description" content="Request your first appointment at DentiNexa AI — no account needed. Our reception team will review and confirm your visit.">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/booking.css">
+</head>
+<body>
+
+<header class="booking-header">
+  <div class="container booking-header-inner">
+    <a href="index.html" class="brand">
+      <img class="icon" src="assets/icons/logo-tooth.svg" alt="" width="26" height="26">
+      <span>DentiNexa<em>AI</em></span>
+    </a>
+    <button class="theme-toggle" aria-label="Toggle dark mode"></button>
+  </div>
+</header>
+
+<main class="booking-shell">
+  <div class="container booking-container">
+
+    <!-- FORM VIEW -->
+    <div id="booking-form-view">
+      <div class="booking-intro">
+        <span class="eyebrow">New patient</span>
+        <h1>Book your first visit</h1>
+        <p class="text-muted">No account needed yet — just tell us a bit about yourself and when you'd like to come in. Our reception team will review your request and confirm your appointment.</p>
+      </div>
+
+      <!-- PROGRESS STEPPER -->
+      <ol class="stepper" id="stepper" aria-label="Booking progress">
+        <li class="stepper-item active" data-step="1"><span class="stepper-dot">1</span><span class="stepper-label">Personal</span></li>
+        <li class="stepper-item" data-step="2"><span class="stepper-dot">2</span><span class="stepper-label">Emergency contact</span></li>
+        <li class="stepper-item" data-step="3"><span class="stepper-dot">3</span><span class="stepper-label">Medical</span></li>
+        <li class="stepper-item" data-step="4"><span class="stepper-dot">4</span><span class="stepper-label">Dental</span></li>
+        <li class="stepper-item" data-step="5"><span class="stepper-dot">5</span><span class="stepper-label">Appointment</span></li>
+        <li class="stepper-item" data-step="6"><span class="stepper-dot">6</span><span class="stepper-label">Review</span></li>
+      </ol>
+
+      <form id="first-visit-form" class="card booking-card" novalidate>
+
+        <!-- STEP 1: PERSONAL INFORMATION -->
+        <fieldset class="step-panel active" data-step="1">
+          <legend>Personal information</legend>
+          <div class="field-row">
+            <div class="field" id="field-firstName">
+              <label for="firstName">First name *</label>
+              <input type="text" id="firstName" name="firstName" required>
+              <p class="field-error"></p>
+            </div>
+            <div class="field" id="field-middleName">
+              <label for="middleName">Middle name</label>
+              <input type="text" id="middleName" name="middleName">
+            </div>
+            <div class="field" id="field-lastName">
+              <label for="lastName">Last name *</label>
+              <input type="text" id="lastName" name="lastName" required>
+              <p class="field-error"></p>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field" id="field-dateOfBirth">
+              <label for="dateOfBirth">Date of birth *</label>
+              <input type="date" id="dateOfBirth" name="dateOfBirth" required max="">
+              <p class="field-error"></p>
+            </div>
+            <div class="field" id="field-gender">
+              <label for="gender">Gender</label>
+              <select id="gender" name="gender">
+                <option value="">Prefer not to say</option>
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field" id="field-phone">
+              <label for="phone">Phone number *</label>
+              <input type="tel" id="phone" name="phone" required placeholder="+234 800 000 0000">
+              <p class="field-error"></p>
+            </div>
+            <div class="field" id="field-email">
+              <label for="email">Email address *</label>
+              <input type="email" id="email" name="email" required placeholder="you@example.com">
+              <p class="field-error"></p>
+            </div>
+          </div>
+          <div class="field" id="field-address">
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" placeholder="Street, city, state">
+          </div>
+        </fieldset>
+
+        <!-- STEP 2: EMERGENCY CONTACT -->
+        <fieldset class="step-panel" data-step="2">
+          <legend>Emergency contact</legend>
+          <p class="text-muted text-sm mb-16">Someone we can reach if we're ever unable to reach you directly.</p>
+          <div class="field" id="field-emergencyContactName">
+            <label for="emergencyContactName">Contact name *</label>
+            <input type="text" id="emergencyContactName" name="emergencyContactName" required>
+            <p class="field-error"></p>
+          </div>
+          <div class="field-row">
+            <div class="field" id="field-emergencyContactPhone">
+              <label for="emergencyContactPhone">Contact phone *</label>
+              <input type="tel" id="emergencyContactPhone" name="emergencyContactPhone" required>
+              <p class="field-error"></p>
+            </div>
+            <div class="field" id="field-emergencyContactRelationship">
+              <label for="emergencyContactRelationship">Relationship</label>
+              <input type="text" id="emergencyContactRelationship" name="emergencyContactRelationship" placeholder="e.g. Spouse, Parent, Sibling">
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- STEP 3: MEDICAL INFORMATION -->
+        <fieldset class="step-panel" data-step="3">
+          <legend>Medical information</legend>
+          <p class="text-muted text-sm mb-16">This helps your dentist prepare safely for your visit. Leave blank if not applicable.</p>
+          <div class="field" id="field-medicalHistory">
+            <label for="medicalHistory">Medical history</label>
+            <textarea id="medicalHistory" name="medicalHistory" placeholder="Any conditions we should know about (e.g. diabetes, heart condition)" data-voice-input></textarea>
+          </div>
+          <div class="field" id="field-allergies">
+            <label for="allergies">Allergies</label>
+            <textarea id="allergies" name="allergies" placeholder="e.g. Penicillin, latex" data-voice-input></textarea>
+          </div>
+          <div class="field" id="field-medications">
+            <label for="medications">Current medication</label>
+            <textarea id="medications" name="medications" placeholder="Anything you're currently taking" data-voice-input></textarea>
+          </div>
+          <div class="field" id="field-previousConditions">
+            <label for="previousConditions">Previous medical conditions</label>
+            <textarea id="previousConditions" name="previousConditions" placeholder="Past surgeries, hospitalizations, etc." data-voice-input></textarea>
+          </div>
+        </fieldset>
+
+        <!-- STEP 4: DENTAL INFORMATION -->
+        <fieldset class="step-panel" data-step="4">
+          <legend>Dental information</legend>
+          <div class="field" id="field-previousDentalTreatment">
+            <label for="previousDentalTreatment">Previous dental treatment</label>
+            <textarea id="previousDentalTreatment" name="previousDentalTreatment" placeholder="Fillings, extractions, braces, etc." data-voice-input></textarea>
+          </div>
+          <div class="field" id="field-previousDentist">
+            <label for="previousDentist">Previous dentist (if any)</label>
+            <input type="text" id="previousDentist" name="previousDentist">
+          </div>
+          <div class="field" id="field-currentDentalConcern">
+            <label for="currentDentalConcern">Current dental concern</label>
+            <textarea id="currentDentalConcern" name="currentDentalConcern" placeholder="What's going on right now?" data-voice-input></textarea>
+          </div>
+          <div class="field" id="field-reasonForVisit">
+            <label for="reasonForVisit">Reason for visit *</label>
+            <textarea id="reasonForVisit" name="reasonForVisit" required placeholder="e.g. Routine checkup, tooth pain, cosmetic consultation" data-voice-input></textarea>
+            <p class="field-error"></p>
+          </div>
+        </fieldset>
+
+        <!-- STEP 5: APPOINTMENT DETAILS -->
+        <fieldset class="step-panel" data-step="5">
+          <legend>Appointment details</legend>
+          <div class="field" id="field-service">
+            <label for="service">Dental service *</label>
+            <select id="service" name="service" required>
+              <option value="">Select a service…</option>
+              <option value="Preventive Care">Preventive Care (cleaning, exam)</option>
+              <option value="Restorative Dentistry">Restorative Dentistry (fillings, crowns)</option>
+              <option value="Cosmetic Dentistry">Cosmetic Dentistry (whitening, veneers)</option>
+              <option value="Orthodontics">Orthodontics (braces, aligners)</option>
+              <option value="Emergency Dentistry">Emergency Dentistry</option>
+              <option value="Pediatric Dentistry">Pediatric Dentistry</option>
+              <option value="Not sure yet">Not sure yet</option>
+            </select>
+            <p class="field-error"></p>
+          </div>
+          <div class="field" id="field-preferredDentist">
+            <label for="preferredDentist">Preferred dentist</label>
+            <select id="preferredDentist" name="preferredDentist">
+              <option value="">No preference</option>
+            </select>
+          </div>
+          <div class="field-row">
+            <div class="field" id="field-preferredDate">
+              <label for="preferredDate">Preferred date *</label>
+              <input type="date" id="preferredDate" name="preferredDate" required>
+              <p class="field-error"></p>
+            </div>
+            <div class="field" id="field-preferredTime">
+              <label for="preferredTime">Preferred time *</label>
+              <input type="time" id="preferredTime" name="preferredTime" required>
+              <p class="field-error"></p>
+            </div>
+          </div>
+          <p class="field-hint">This is your preferred time — reception will confirm the exact slot with you.</p>
+        </fieldset>
+
+        <!-- STEP 6: REVIEW & CONSENT -->
+        <fieldset class="step-panel" data-step="6">
+          <legend>Review & submit</legend>
+          <div id="review-summary" class="review-summary"></div>
+          <div class="field consent-field" id="field-consent">
+            <label class="checkbox-row">
+              <input type="checkbox" id="consent" name="consent" required>
+              <span>I consent to DentiNexa AI collecting and processing this information to schedule and prepare for my appointment. *</span>
+            </label>
+            <p class="field-error"></p>
+          </div>
+        </fieldset>
+
+        <!-- Hidden fields for Formspree (do not remove — see js/booking.js for the endpoint) -->
+        <input type="hidden" name="_subject" value="New dental appointment request — DentiNexa AI">
+
+        <div class="step-nav">
+          <button type="button" class="btn btn-secondary" id="step-back-btn">Back</button>
+          <div class="step-nav-right">
+            <span class="step-counter" id="step-counter">Step 1 of 6</span>
+            <button type="button" class="btn btn-primary" id="step-next-btn">Continue</button>
+            <button type="submit" class="btn btn-primary hidden" id="step-submit-btn">Submit request</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- SUCCESS VIEW -->
+    <div id="booking-success-view" class="success-screen hidden">
+      <div class="success-check-wrap">
+        <svg class="success-check" viewBox="0 0 80 80" aria-hidden="true">
+          <circle class="success-check-circle" cx="40" cy="40" r="36"/>
+          <path class="success-check-mark" d="M24 42l11 11 21-23"/>
+        </svg>
+      </div>
+      <h1>Appointment Request Received!</h1>
+      <p class="text-muted">Thank you for choosing DentiNexa AI. Your appointment request has been successfully submitted.</p>
+
+      <div class="success-details card">
+        <div class="success-detail-row">
+          <span class="text-muted">Requested date</span>
+          <strong id="success-date">—</strong>
+        </div>
+        <div class="success-detail-row">
+          <span class="text-muted">Requested time</span>
+          <strong id="success-time">—</strong>
+        </div>
+        <div class="success-detail-row">
+          <span class="text-muted">Reference</span>
+          <strong id="success-reference" class="font-mono">—</strong>
+        </div>
+        <div class="success-status">
+          <span class="badge badge-warning">Request Received</span>
+          <span class="text-muted text-sm">— not yet confirmed</span>
+        </div>
+      </div>
+
+      <p class="text-sm text-muted success-note">
+        A confirmation email has been sent to your email address. Our reception team will review your request
+        and contact you to confirm your appointment.
+      </p>
+      <a href="index.html" class="btn btn-primary">Return to home</a>
+    </div>
+
+  </div>
+</main>
+
+<script src="js/ui.js"></script>
+<script src="js/api.js"></script>
+<script src="js/speech.js"></script>
+<script src="js/booking.js"></script>
+</body>
+</html>

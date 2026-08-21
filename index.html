@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DentiNexa AI — Modern Dental Care, Powered by AI</title>
+<meta name="description" content="DentiNexa AI is an AI-assisted dental clinic offering smart scheduling, virtual symptom guidance, and compassionate, modern dental care.">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+
+<header class="site-header" id="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="brand">
+      <img src="assets/icons/logo-tooth.svg" alt="DentiNexa AI" width="30" height="30">
+      <span>DentiNexa<em>AI</em></span>
+    </a>
+    <nav class="main-nav" id="main-nav">
+      <a href="#services">Services</a>
+      <a href="#dentists">Our Dentists</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#testimonials">Reviews</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode"></button>
+      <a href="login.html" class="btn btn-ghost btn-sm">Log in</a>
+      <a href="book-first-visit.html" class="btn btn-primary btn-sm">Book an appointment</a>
+      <button class="nav-burger" id="nav-burger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">AI-assisted dental care</span>
+        <h1>Care that listens<br>before it drills.</h1>
+        <p class="hero-lead">
+          DentiNexa AI pairs experienced dentists with an AI assistant that helps you describe symptoms,
+          understand your options, and book the right appointment — in your language, on your schedule.
+        </p>
+        <div class="hero-actions">
+          <a href="book-first-visit.html" class="btn btn-primary">Book your first visit</a>
+          <a href="#ai-preview" class="btn btn-secondary">See the AI assistant</a>
+        </div>
+        <div class="hero-trust">
+          <div class="trust-stat"><strong>98%</strong><span>patient satisfaction</span></div>
+          <div class="trust-stat"><strong>24/7</strong><span>AI symptom guidance</span></div>
+          <div class="trust-stat"><strong>7</strong><span>languages supported</span></div>
+        </div>
+      </div>
+       <div class="hero-visual"
+         aria-hidden="true"
+         style="flex: 0 0 52%; width: 100%; overflow: visible;">
+
+      <img src="download.webp"
+           class="arch-hero"
+           alt=""
+           style="width: 300%; max-width: none; height: auto; display: block; object-fit: cover;">
+    </div>
+    </div>
+  </section>
+
+  <!-- AI ASSISTANT PREVIEW -->
+  <section class="ai-preview" id="ai-preview">
+    <div class="container ai-preview-inner">
+      <div class="ai-chat-mock card">
+        <div class="ai-chat-header">
+          <span class="ai-dot"></span> DentiNexa Assistant
+          <button class="ai-chat-reset" id="ai-chat-reset" type="button" title="Reset conversation"><img src="assets/icons/icon-reset.svg" alt="Reset" width="16" height="16"></button>
+        </div>
+        <div class="ai-chat-body" id="ai-chat-body">
+          <div class="bubble bubble-ai">
+            Hi, I'm the DentiNexa Assistant. Tell me what's going on and I'll help you figure out next steps —
+            try something like "my tooth hurts" or "I want a cleaning."
+          </div>
+        </div>
+        <div class="ai-chat-input">
+          <input type="text" id="ai-chat-input" placeholder="Describe how you're feeling…" autocomplete="off" maxlength="240">
+          <button type="button" class="voice-btn-inline" id="ai-chat-mic" aria-label="Dictate by voice">
+            <img src="assets/icons/icon-mic.svg" alt="" width="15" height="15">
+          </button>
+          <button class="btn btn-primary btn-sm" id="ai-chat-send">Send</button>
+        </div>
+      </div>
+      <div class="ai-preview-copy">
+        <span class="eyebrow">Always-on triage</span>
+        <h2>An assistant that pre-fills the visit, not replaces it.</h2>
+        <p>
+          Patients describe symptoms by typing or speaking. The assistant offers plain-language education,
+          flags urgency, and hands a clean summary to your dentist — who makes every clinical call.
+        </p>
+        <ul class="check-list">
+          <li>Speech-to-text symptom intake</li>
+          <li>Educational guidance with confidence levels, never a diagnosis</li>
+          <li>Multilingual: English, French, Spanish, Arabic, Yoruba, Hausa, Igbo</li>
+        </ul>
+        <p class="fine-print">AI guidance is educational only and does not replace professional clinical evaluation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="container">
+      <span class="eyebrow center">What we treat</span>
+      <h2 class="center">Comprehensive dental care, one clinic.</h2>
+      <div class="services-grid">
+        <div class="service-card card">
+          <div class="service-icon"><img src="assets/icons/service-preventive.svg" alt="" width="28" height="28"></div>
+          <h3>Preventive Care</h3>
+          <p>Cleanings, exams, and fluoride treatments to stop problems before they start.</p>
+        </div>
+        <div class="service-card card">
+          <div class="service-icon"><img src="assets/icons/service-restorative.svg" alt="" width="28" height="28"></div>
+          <h3>Restorative Dentistry</h3>
+          <p>Fillings, crowns, and bridges using durable, tooth-matched materials.</p>
+        </div>
+        <div class="service-card card">
+          <div class="service-icon"><img src="assets/icons/service-cosmetic.svg" alt="" width="28" height="28"></div>
+          <h3>Cosmetic Dentistry</h3>
+          <p>Whitening, veneers, and smile design tailored to how you want to look.</p>
+        </div>
+        <div class="service-card card">
+          <div class="service-icon"><img src="assets/icons/service-ortho.svg" alt="" width="28" height="28"></div>
+          <h3>Orthodontics</h3>
+          <p>Braces and clear aligners, with AI-optimized recall scheduling.</p>
+        </div>
+        <div class="service-card card">
+          <div class="service-icon"><img src="assets/icons/service-emergency.svg" alt="" width="28" height="28"></div>
+          <h3>Emergency Dentistry</h3>
+          <p>Same-day triage for pain, trauma, and infections — AI helps flag urgency early.</p>
+        </div>
+        <div class="service-card card">
+          <div class="service-icon"><img src="assets/icons/service-pediatric.svg" alt="" width="28" height="28"></div>
+          <h3>Pediatric Dentistry</h3>
+          <p>Gentle, patient care designed around younger patients and nervous first visits.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT / WHY CHOOSE US -->
+  <section class="about" id="about">
+    <div class="container about-inner">
+      <div>
+        <span class="eyebrow">About the clinic</span>
+        <h2>Built by clinicians, sharpened by AI.</h2>
+        <p>
+          DentiNexa AI started as a single clinic frustrated by slow scheduling and paperwork getting between
+          dentists and patients. We rebuilt the experience around one idea: technology should shorten the
+          distance between "something feels wrong" and "someone is looking after it."
+        </p>
+      </div>
+      <div class="why-grid">
+        <div class="why-item">
+          <h4>Faster answers</h4>
+          <p>AI triage means you're rarely guessing what to do next.</p>
+        </div>
+        <div class="why-item">
+          <h4>Real dentists, every time</h4>
+          <p>AI supports the visit; a licensed dentist makes every clinical decision.</p>
+        </div>
+        <div class="why-item">
+          <h4>Transparent billing</h4>
+          <p>See costs, invoices, and outstanding balances in one place.</p>
+        </div>
+        <div class="why-item">
+          <h4>Records that follow you</h4>
+          <p>Treatment history, x-rays, and prescriptions, always accessible.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEET OUR DENTISTS (live from API) -->
+  <section class="dentists" id="dentists">
+    <div class="container">
+      <span class="eyebrow center">Meet the team</span>
+      <h2 class="center">Dentists who take the time.</h2>
+      <div id="dentists-grid" class="dentists-grid">
+        <div class="skeleton" style="height:220px;"></div>
+        <div class="skeleton" style="height:220px;"></div>
+        <div class="skeleton" style="height:220px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <span class="eyebrow center">Patient stories</span>
+      <h2 class="center">What patients are saying</h2>
+      <div class="testimonials-grid">
+        <blockquote class="card testimonial">
+          <p>"I described my toothache at midnight and had a confirmed appointment before breakfast."</p>
+          <cite>— Folake A., patient since 2023</cite>
+        </blockquote>
+        <blockquote class="card testimonial">
+          <p>"First clinic where I actually understood my treatment plan before agreeing to it."</p>
+          <cite>— Michael T., patient since 2022</cite>
+        </blockquote>
+        <blockquote class="card testimonial">
+          <p>"The Yoruba translation meant my grandmother could finally ask her own questions."</p>
+          <cite>— Bisi O., patient since 2024</cite>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <span class="eyebrow center">Simple pricing</span>
+      <h2 class="center">Plans for every kind of visit</h2>
+      <div class="pricing-grid">
+        <div class="price-card card">
+          <h3>Pay as you go</h3>
+          <p class="price">$0<span>/mo</span></p>
+          <p class="text-muted">For occasional visits and one-off treatments.</p>
+          <ul class="check-list">
+            <li>Online booking</li>
+            <li>AI symptom guidance</li>
+            <li>Standard invoicing</li>
+          </ul>
+          <a href="book-first-visit.html" class="btn btn-secondary btn-block">Get started</a>
+        </div>
+        <div class="price-card card featured">
+          <span class="badge badge-teal">Most popular</span>
+          <h3>Family Care</h3>
+          <p class="price">$29<span>/mo</span></p>
+          <p class="text-muted">Recurring cleanings and priority scheduling for the household.</p>
+          <ul class="check-list">
+            <li>Everything in Pay as you go</li>
+            <li>Priority appointment slots</li>
+            <li>Recall reminders for the whole family</li>
+          </ul>
+          <a href="book-first-visit.html" class="btn btn-primary btn-block">Get started</a>
+        </div>
+        <div class="price-card card">
+          <h3>Enterprise / Clinics</h3>
+          <p class="price">Custom</p>
+          <p class="text-muted">For dental organizations running multiple locations.</p>
+          <ul class="check-list">
+            <li>Multi-branch administration</li>
+            <li>Analytics & reporting suite</li>
+            <li>Dedicated onboarding</li>
+          </ul>
+          <a href="#contact" class="btn btn-secondary btn-block">Talk to us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <span class="eyebrow center">Questions</span>
+      <h2 class="center">Frequently asked questions</h2>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>Is the AI assistant diagnosing me?</summary>
+          <p>No. It offers educational information and confidence levels only. Every diagnosis and treatment plan comes from a licensed dentist.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I reschedule or cancel online?</summary>
+          <p>Yes — from your patient dashboard you can reschedule or cancel upcoming appointments at any time before check-in.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Which languages are supported?</summary>
+          <p>English, French, Spanish, Arabic, Yoruba, Hausa, and Igbo, across both the interface and the AI assistant.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is my data secure?</summary>
+          <p>We use encrypted authentication, role-based access controls, and full audit logging on every record.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do you accept insurance?</summary>
+          <p>Insurance integration is on our roadmap. Today, invoices are generated per visit with clear itemized pricing.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT + MAP + EMERGENCY -->
+  <section class="contact" id="contact">
+    <div class="container contact-inner">
+      <div class="contact-form-wrap card">
+        <h2>Get in touch</h2>
+        <p class="text-muted">Questions about a visit, billing, or partnering with us? Send a message.</p>
+        <form id="contact-form">
+          <div class="field">
+            <label for="contact-name">Full name</label>
+            <input id="contact-name" name="name" type="text" required>
+          </div>
+          <div class="field">
+            <label for="contact-email">Email</label>
+            <input id="contact-email" name="email" type="email" required>
+          </div>
+          <div class="field">
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" name="message" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Send message</button>
+        </form>
+      </div>
+      <div class="contact-side">
+        <div class="card map-card">
+          <div class="map-placeholder">
+            <img src="assets/icons/map-marker.svg" class="map-marker-img" alt="Clinic location">
+          </div>
+          <div class="card-pad">
+            <h4>Visit the clinic</h4>
+            <p class="text-muted">123 Wellness Avenue, Ifo, Ogun State</p>
+          </div>
+        </div>
+        <div class="card card-pad emergency-card">
+          <h4>Dental emergency?</h4>
+          <p class="text-muted">Call our 24/7 emergency line immediately for severe pain, trauma, or swelling.</p>
+          <a href="tel:+2348000000000" class="btn btn-danger btn-block">Call emergency line</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter">
+    <div class="container newsletter-inner">
+      <div>
+        <h2>Oral health tips, monthly.</h2>
+        <p class="text-muted">No spam — just practical care advice and clinic updates.</p>
+      </div>
+      <form id="newsletter-form" class="newsletter-form">
+        <input type="email" placeholder="you@example.com" required aria-label="Email address">
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span>DentiNexa<em>AI</em></span>
+      <p class="text-muted">AI-assisted dental care, delivered by real clinicians.</p>
+    </div>
+    <div class="footer-links">
+      <div>
+        <h5>Product</h5>
+        <a href="#services">Services</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div>
+        <h5>Account</h5>
+        <a href="login.html">Log in</a>
+        <a href="register.html">Register</a>
+      </div>
+      <div>
+        <h5>Clinic</h5>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p class="text-muted">© 2026 DentiNexa AI. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="js/ui.js"></script>
+<script src="js/api.js"></script>
+<script src="js/speech.js"></script>
+<script src="js/ai-chat.js"></script>
+<script src="js/landing.js"></script>
+</body>
+</html>

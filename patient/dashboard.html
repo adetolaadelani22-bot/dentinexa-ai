@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Dashboard — DentiNexa AI</title>
+<link rel="stylesheet" href="../css/main.css">
+<link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html" class="brand"><span>DentiNexa<em>AI</em></span></a>
+    <nav class="sidebar-nav">
+      <a href="#overview" class="nav-link active" data-tab="panel-overview">
+        <img class="icon" src="../assets/icons/nav-grid.svg" alt="Overview" width="18" height="18">
+        Overview
+      </a>
+      <a href="#appointments" class="nav-link" data-tab="panel-appointments">
+        <img class="icon" src="../assets/icons/nav-calendar.svg" alt="Appointments" width="18" height="18">
+        Appointments
+        <span id="nav-alert-dot" class="nav-alert-dot hidden"></span>
+      </a>
+      <a href="#records" class="nav-link" data-tab="panel-records">
+        <img class="icon" src="../assets/icons/nav-file.svg" alt="Medical Records" width="18" height="18">
+        Medical Records
+      </a>
+      <a href="#billing" class="nav-link" data-tab="panel-billing">
+        <img class="icon" src="../assets/icons/nav-credit-card.svg" alt="Billing" width="18" height="18">
+        Billing
+      </a>
+      <a href="#documents" class="nav-link" data-tab="panel-documents">
+        <img class="icon" src="../assets/icons/nav-file-lines.svg" alt="Documents" width="18" height="18">
+        Documents
+      </a>
+      <a href="#profile" class="nav-link" data-tab="panel-profile">
+        <img class="icon" src="../assets/icons/nav-person.svg" alt="Profile" width="18" height="18">
+        Profile
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebar-avatar"></div>
+        <div>
+          <div class="sidebar-user-name" id="sidebar-user-name"></div>
+          <div class="sidebar-user-role" id="sidebar-user-role"></div>
+          <div class="sidebar-user-patientid text-muted font-mono" id="sidebar-patient-id" style="font-size:0.7rem;"></div>
+        </div>
+      </div>
+      <button class="btn btn-ghost btn-sm btn-block" id="logout-btn">Log out</button>
+    </div>
+  </aside>
+
+  <div>
+    <header class="topbar">
+      <div class="flex items-center gap-16">
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+          <img class="icon" src="../assets/icons/icon-menu.svg" alt="Menu" width="22" height="22">
+        </button>
+        <h1>Patient Dashboard</h1>
+      </div>
+      <div class="topbar-actions">
+        <button class="theme-toggle" aria-label="Toggle dark mode"></button>
+        <button class="btn btn-primary btn-sm" id="book-appointment-btn"><span class="btn-label-full">+ Book appointment</span><span class="btn-label-short">+ Book</span></button>
+      </div>
+    </header>
+
+    <main class="dashboard-main">
+      <div id="ready-alert-container"></div>
+      <div id="notif-permission-banner" class="notif-permission-banner hidden">
+        <span><img src="../assets/icons/icon-bell-gray.svg" alt="" width="14" height="14" class="inline-icon"> Turn on browser notifications so you don't miss the moment your dentist is ready for you.</span>
+        <button class="btn btn-secondary btn-sm" id="enable-notif-btn">Enable notifications</button>
+      </div>
+      <!-- OVERVIEW -->
+      <section id="panel-overview">
+        <div class="stats-grid">
+          <div class="card stat-card">
+            <div class="stat-label">Next appointment</div>
+            <div class="stat-value" id="stat-next-appt">—</div>
+            <div class="stat-sub" id="stat-next-appt-sub">No upcoming visits</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-label">Total visits</div>
+            <div class="stat-value" id="stat-total-visits">0</div>
+            <div class="stat-sub">All time</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-label">Outstanding balance</div>
+            <div class="stat-value" id="stat-balance">$0</div>
+            <div class="stat-sub">Across all invoices</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-label">Active prescriptions</div>
+            <div class="stat-value" id="stat-prescriptions">0</div>
+            <div class="stat-sub">Currently listed</div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:24px;">
+          <div class="section-header"><h2>Upcoming appointments</h2></div>
+          <div id="overview-upcoming-list"><div class="skeleton" style="height:60px;"></div></div>
+        </div>
+      </section>
+
+      <!-- APPOINTMENTS -->
+      <section id="panel-appointments" class="hidden">
+        <div class="section-header">
+          <h2>All appointments</h2>
+          <button class="btn btn-primary btn-sm" id="book-appointment-btn-2">+ Book appointment</button>
+        </div>
+        <div class="card">
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Time</th><th>Dentist</th><th>Reason</th><th>Status</th><th></th></tr></thead>
+              <tbody id="appointments-table-body">
+                <tr><td colspan="6"><div class="skeleton" style="height:40px;"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- MEDICAL RECORDS -->
+      <section id="panel-records" class="hidden">
+        <div class="tabs">
+          <button class="tab-btn active" data-target="records-clinical">Clinical Notes</button>
+          <button class="tab-btn" data-target="records-prescriptions">Prescriptions</button>
+        </div>
+        <div id="records-clinical" class="record-panel">
+          <div class="card"><div class="data-table-wrap"><table class="data-table">
+            <thead><tr><th>Date</th><th>Dentist</th><th>Diagnosis</th><th>Assessment</th><th>Plan</th></tr></thead>
+            <tbody id="clinical-notes-body"><tr><td colspan="5"><div class="skeleton" style="height:40px;"></div></td></tr></tbody>
+          </table></div></div>
+        </div>
+        <div id="records-prescriptions" class="record-panel hidden">
+          <div class="card"><div class="data-table-wrap"><table class="data-table">
+            <thead><tr><th>Date</th><th>Medication</th><th>Dosage</th><th>Instructions</th></tr></thead>
+            <tbody id="prescriptions-body"><tr><td colspan="4"><div class="skeleton" style="height:40px;"></div></td></tr></tbody>
+          </table></div></div>
+        </div>
+      </section>
+
+      <!-- BILLING -->
+      <section id="panel-billing" class="hidden">
+        <div class="section-header"><h2>Invoices</h2></div>
+        <div class="card">
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Status</th></tr></thead>
+              <tbody id="invoices-body"><tr><td colspan="4"><div class="skeleton" style="height:40px;"></div></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- DOCUMENTS -->
+      <section id="panel-documents" class="hidden">
+        <div class="card" style="padding:28px;max-width:640px;margin-bottom:24px;">
+          <h2 class="mb-8">Download medical history</h2>
+          <p class="text-muted text-sm mb-16">
+            Generates a printable summary of your profile, medical & dental history, and appointments —
+            branded for DentiNexa AI. Use your browser's Print dialog to save it as a PDF.
+          </p>
+          <button class="btn btn-primary" id="download-history-btn">Download medical history (PDF)</button>
+        </div>
+
+        <div class="card" style="padding:28px;max-width:640px;">
+          <h2 class="mb-8">My documents — upload &amp; AI analysis</h2>
+          <p class="text-muted text-sm mb-16">
+            Upload a dental photo, X-ray, or document. Our AI can help describe what it sees and flag anything
+            worth a closer look — <strong>always presented as assistance, never a diagnosis.</strong>
+          </p>
+          <div class="upload-dropzone" id="upload-dropzone">
+            <input type="file" id="document-upload-input" accept="image/png,image/jpeg,image/jpg,application/pdf" class="hidden">
+            <p class="text-sm text-muted" id="upload-dropzone-label">Click to choose a file — JPG, PNG, or PDF</p>
+          </div>
+
+          <div id="uploaded-documents-list" class="mt-16"></div>
+        </div>
+      </section>
+
+      <!-- PROFILE -->
+      <section id="panel-profile" class="hidden">
+        <div class="card" id="patient-id-banner" style="padding:16px 20px;max-width:640px;margin-bottom:16px;display:none;align-items:center;justify-content:space-between;" >
+          <div>
+            <span class="text-sm text-muted">Patient ID</span>
+            <div class="font-mono" id="profile-patient-id" style="font-size:1.1rem;font-weight:700;color:var(--teal-700);"></div>
+          </div>
+          <span class="badge badge-teal">Active patient</span>
+        </div>
+        <div class="card" style="padding:28px;max-width:640px;">
+          <h2 class="mb-16">Medical & dental profile</h2>
+          <form id="profile-form">
+            <div class="field">
+              <label for="dateOfBirth">Date of birth</label>
+              <input type="date" id="dateOfBirth" name="dateOfBirth">
+            </div>
+            <div class="field">
+              <label for="gender">Gender</label>
+              <select id="gender" name="gender">
+                <option value="">Prefer not to say</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="address">Address</label>
+              <input type="text" id="address" name="address">
+            </div>
+            <div class="field">
+              <label for="emergencyContactName">Emergency contact name</label>
+              <input type="text" id="emergencyContactName" name="emergencyContactName">
+            </div>
+            <div class="field">
+              <label for="emergencyContactPhone">Emergency contact phone</label>
+              <input type="tel" id="emergencyContactPhone" name="emergencyContactPhone">
+            </div>
+            <div class="field">
+              <label for="allergies">Allergies</label>
+              <textarea id="allergies" name="allergies"></textarea>
+            </div>
+            <div class="field">
+              <label for="currentMedications">Current medications</label>
+              <textarea id="currentMedications" name="currentMedications"></textarea>
+            </div>
+            <div class="field">
+              <label for="medicalHistory">Medical history</label>
+              <textarea id="medicalHistory" name="medicalHistory"></textarea>
+            </div>
+            <div class="field">
+              <label for="dentalHistory">Dental history</label>
+              <textarea id="dentalHistory" name="dentalHistory"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Save profile</button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="../js/ui.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/dashboard-common.js"></script>
+<script src="../js/speech.js"></script>
+<script src="../js/patient-dashboard.js"></script>
+</body>
+</html>

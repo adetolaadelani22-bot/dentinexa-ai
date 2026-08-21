@@ -1,0 +1,34 @@
+body { background: var(--bg); }
+.auth-shell { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+.auth-panel { padding: 56px clamp(24px, 6vw, 88px); display: flex; flex-direction: column; justify-content: center; max-width: 520px; margin: 0 auto; width: 100%; }
+.auth-panel .brand { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; margin-bottom: 40px; color: var(--text-primary); }
+.auth-panel .brand em { font-style: normal; color: var(--teal-700); }
+.auth-panel .brand:hover { text-decoration: none; }
+.auth-panel h1 { font-size: 1.9rem; }
+
+.checkbox-row { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; color: var(--text-secondary); cursor: pointer; }
+.auth-switch { text-align: center; margin-top: 20px; font-size: 0.92rem; color: var(--text-secondary); }
+
+.demo-creds { padding: 16px; margin-top: 28px; }
+.demo-list { display: flex; flex-direction: column; gap: 6px; }
+.demo-list button {
+  width: 100%; text-align: left; background: var(--gray-100); border: none; border-radius: var(--radius-sm);
+  padding: 8px 12px; font-size: 0.82rem; color: var(--text-secondary); cursor: pointer;
+  transition: background var(--transition-fast);
+}
+.demo-list button:hover { background: var(--teal-100); color: var(--teal-700); }
+
+.auth-side {
+  background: linear-gradient(160deg, var(--teal-700), var(--teal-900));
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 56px; position: relative; overflow: hidden;
+}
+.auth-arch { position: absolute; width: 120%; height: 120%; opacity: 0.8; }
+.auth-side-copy { position: relative; color: #fff; max-width: 380px; text-align: center; }
+.auth-side-copy h2 { color: #fff; font-size: 1.7rem; }
+.auth-side-copy p { color: rgba(255,255,255,0.8); }
+
+@media (max-width: 900px) {
+  .auth-shell { grid-template-columns: 1fr; }
+  .auth-side { display: none; }
+}

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dentist Dashboard — DentiNexa AI</title>
+<link rel="stylesheet" href="../css/main.css">
+<link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html" class="brand"><span>DentiNexa<em>AI</em></span></a>
+    <nav class="sidebar-nav">
+      <a href="#schedule" class="nav-link active" data-tab="panel-schedule">
+        <img class="icon" src="../assets/icons/nav-calendar.svg" alt="Appointments" width="18" height="18">
+        My Schedule
+      </a>
+      <a href="#patients" class="nav-link" data-tab="panel-patients">
+        <img class="icon" src="../assets/icons/nav-users.svg" alt="Patients" width="18" height="18">
+        My Patients
+      </a>
+      <a href="#clinical" class="nav-link" data-tab="panel-clinical">
+        <img class="icon" src="../assets/icons/nav-file-lines.svg" alt="Notes" width="18" height="18">
+        Clinical Notes
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebar-avatar"></div>
+        <div>
+          <div class="sidebar-user-name" id="sidebar-user-name"></div>
+          <div class="sidebar-user-role" id="sidebar-user-role"></div>
+        </div>
+      </div>
+      <button class="btn btn-ghost btn-sm btn-block" id="logout-btn">Log out</button>
+    </div>
+  </aside>
+
+  <div>
+    <header class="topbar">
+      <div class="flex items-center gap-16">
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+          <img class="icon" src="../assets/icons/icon-menu.svg" alt="Menu" width="22" height="22">
+        </button>
+        <h1>Dentist Dashboard</h1>
+      </div>
+      <div class="topbar-actions">
+        <button class="theme-toggle" aria-label="Toggle dark mode"></button>
+      </div>
+    </header>
+
+    <main class="dashboard-main">
+      <!-- SCHEDULE -->
+      <section id="panel-schedule">
+        <div class="stats-grid">
+          <div class="card stat-card">
+            <div class="stat-label">Today's patients</div>
+            <div class="stat-value" id="stat-today-count">0</div>
+            <div class="stat-sub">Scheduled today</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-label">This week</div>
+            <div class="stat-value" id="stat-week-count">0</div>
+            <div class="stat-sub">Upcoming appointments</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-label">Pending confirmations</div>
+            <div class="stat-value" id="stat-pending-count">0</div>
+            <div class="stat-sub">Awaiting your confirmation</div>
+          </div>
+        </div>
+        <div class="section-header"><h2>Upcoming schedule</h2></div>
+        <div class="card">
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Time</th><th>Patient</th><th>Reason</th><th>Status</th><th></th></tr></thead>
+              <tbody id="schedule-table-body"><tr><td colspan="6"><div class="skeleton" style="height:40px;"></div></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PATIENTS -->
+      <section id="panel-patients" class="hidden">
+        <div class="section-header"><h2>Patients</h2></div>
+        <div class="card">
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th></th></tr></thead>
+              <tbody id="patients-table-body"><tr><td colspan="4"><div class="skeleton" style="height:40px;"></div></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- CLINICAL NOTES -->
+      <section id="panel-clinical" class="hidden">
+        <div class="card" style="padding:28px;max-width:640px;">
+          <h2 class="mb-16">Add a clinical note (SOAP)</h2>
+          <p class="text-muted mb-16 text-sm">Notes are saved only after you review and submit them.</p>
+          <form id="clinical-note-form">
+            <div class="field">
+              <label for="note-patient">Patient</label>
+              <select id="note-patient" name="patientId" required></select>
+            </div>
+            <div class="field">
+              <label for="note-subjective">Subjective</label>
+              <textarea id="note-subjective" name="subjective" placeholder="Patient-reported symptoms…" data-voice-input></textarea>
+            </div>
+            <div class="field">
+              <label for="note-objective">Objective</label>
+              <textarea id="note-objective" name="objective" placeholder="Clinical observations, exam findings…" data-voice-input></textarea>
+            </div>
+            <div class="field">
+              <label for="note-assessment">Assessment</label>
+              <textarea id="note-assessment" name="assessment" placeholder="Clinical assessment…" required data-voice-input></textarea>
+            </div>
+            <div class="field">
+              <label for="note-plan">Plan</label>
+              <textarea id="note-plan" name="plan" placeholder="Treatment plan / next steps…" data-voice-input></textarea>
+            </div>
+            <div class="field">
+              <label for="note-diagnosis">Diagnosis</label>
+              <input type="text" id="note-diagnosis" name="diagnosis">
+            </div>
+            <button type="submit" class="btn btn-primary">Save clinical note</button>
+          </form>
+        </div>
+
+        <div class="card mt-24" style="padding:28px;max-width:640px;">
+          <h2 class="mb-16">Write a prescription</h2>
+          <form id="prescription-form">
+            <div class="field">
+              <label for="rx-patient">Patient</label>
+              <select id="rx-patient" name="patientId" required></select>
+            </div>
+            <div class="field">
+              <label for="rx-medication">Medication</label>
+              <input type="text" id="rx-medication" name="medication" required>
+            </div>
+            <div class="field">
+              <label for="rx-dosage">Dosage</label>
+              <input type="text" id="rx-dosage" name="dosage" placeholder="e.g. 500mg, 3x daily">
+            </div>
+            <div class="field">
+              <label for="rx-instructions">Instructions</label>
+              <textarea id="rx-instructions" name="instructions" data-voice-input></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Save prescription</button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="../js/ui.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/dashboard-common.js"></script>
+<script src="../js/speech.js"></script>
+<script src="../js/dentist-dashboard.js"></script>
+</body>
+</html>
