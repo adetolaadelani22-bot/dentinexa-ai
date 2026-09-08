@@ -37,9 +37,46 @@ async function loadAppointments() {
     document.getElementById('stat-checked-in').textContent = ALL_APPOINTMENTS.filter(a => a.status === 'checked_in').length;
 
     renderAppointments('');
+    renderUrgentAlerts();
   } catch (err) {
     showToast(extractErrorMessage(err), 'error');
   }
+}
+
+function renderUrgentAlerts() {
+  const container = document.getElementById('urgent-alert-container');
+  if (!container) return;
+
+  const urgentAppointments = (ALL_APPOINTMENTS || []).filter(a => ['urgent', 'emergency'].includes(String(a.status || '').toLowerCase()));
+  const urgentRequests = (ALL_REQUESTS || []).filter(r =>
+    r?.isUrgent || r?.emergency || ['urgent', 'emergency'].includes(String(r?.status || '').toLowerCase())
+  );
+
+  const urgentItems = [
+    ...urgentAppointments.map(a => ({
+      title: 'Emergency appointment',
+      detail: `${a.patient_name || 'Patient'} • ${formatDate(a.appointment_date)} • ${formatTime(a.appointment_time)}`
+    })),
+    ...urgentRequests.map(r => ({
+      title: 'Urgent intake request',
+      detail: `${[r.firstName, r.lastName].filter(Boolean).join(' ') || 'Patient'} • ${r.service || 'Care request'} • ${r.preferredDate ? formatDate(r.preferredDate) : 'ASAP'}`
+    }))
+  ];
+
+  if (!urgentItems.length) {
+    container.innerHTML = '';
+    return;
+  }
+
+  container.innerHTML = urgentItems.map(item => `
+    <div class="emergency-alert">
+      <div class="emergency-alert-icon">!</div>
+      <div class="emergency-alert-body">
+        <strong>${escapeHtml(item.title)}</strong>
+        <span>${escapeHtml(item.detail)}</span>
+      </div>
+    </div>
+  `).join('');
 }
 
 function renderAppointments(filterText) {
@@ -92,7 +129,9 @@ async function openBookForPatientModal() {
   try {
     const json = await Api.get('/dentists');
     dentistOptions += (json.data || []).map(d => `<option value="${d.id}">${escapeHtml(d.full_name)}</option>`).join('');
-  } catch (e) {}
+  } catch (err) {
+    showToast('Dentist list could not be loaded. You can still book without assigning a dentist.', 'warning', 6000);
+  }
 
   const patientOptions = ALL_PATIENTS.map(p => `<option value="${p.id}">${escapeHtml(p.full_name)}</option>`).join('');
 
@@ -148,6 +187,7 @@ async function loadRequests() {
     const json = await Api.get('/first-visit-requests');
     ALL_REQUESTS = json.data || [];
     renderRequestsTable();
+    renderUrgentAlerts();
 
     const pendingCount = ALL_REQUESTS.filter(r => r.status === 'request_received').length;
     const dot = document.getElementById('requests-alert-dot');

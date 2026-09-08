@@ -215,6 +215,10 @@
 
         <!-- Hidden fields for Formspree (do not remove — see js/booking.js for the endpoint) -->
         <input type="hidden" name="_subject" value="New dental appointment request — DentiNexa AI">
+        <input type="hidden" id="isEmergency" name="isEmergency" value="false">
+        <input type="hidden" id="emergencySummary" name="emergencySummary" value="">
+
+        <button type="button" class="btn btn-danger btn-sm emergency-trigger" id="emergency-trigger-btn">Urgent dental care</button>
 
         <div class="step-nav">
           <button type="button" class="btn btn-secondary" id="step-back-btn">Back</button>
@@ -225,6 +229,58 @@
           </div>
         </div>
       </form>
+    </div>
+
+    <div id="emergency-modal" class="emergency-modal-overlay hidden" aria-hidden="true">
+      <div class="emergency-modal" role="dialog" aria-modal="true" aria-labelledby="emergency-modal-title">
+        <div class="emergency-modal-header">
+          <h3 id="emergency-modal-title">Urgent dental care</h3>
+          <button type="button" class="emergency-modal-close" id="emergency-modal-close" aria-label="Close urgent care form">×</button>
+        </div>
+        <form id="emergency-form" novalidate>
+          <div class="emergency-modal-grid">
+            <div class="field">
+              <label for="emergencyType">Issue type</label>
+              <select id="emergencyType" name="emergencyType">
+                <option value="">Select an issue</option>
+                <option value="Severe pain">Severe pain</option>
+                <option value="Swelling">Swelling</option>
+                <option value="Bleeding">Bleeding</option>
+                <option value="Trauma">Trauma / knocked-out tooth</option>
+                <option value="Infection">Infection or abscess</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="emergencySeverity">Severity</label>
+              <select id="emergencySeverity" name="emergencySeverity">
+                <option value="">Choose severity</option>
+                <option value="Critical">Critical / can’t wait</option>
+                <option value="Moderate">Moderate / same day preferred</option>
+                <option value="Mild">Mild / still urgent</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="emergencyDescription">What is happening?</label>
+            <textarea id="emergencyDescription" name="emergencyDescription" rows="4" placeholder="Describe the problem, pain, swelling, injury, or recent dental event."></textarea>
+          </div>
+          <div class="field">
+            <label for="emergencyPreferredContact">Best contact method</label>
+            <input type="text" id="emergencyPreferredContact" name="emergencyPreferredContact" placeholder="Phone, email, or preferred callback time">
+          </div>
+          <div class="field">
+            <label class="checkbox-row">
+              <input type="checkbox" id="emergencyConsent" name="emergencyConsent">
+              <span>I need urgent dental triage and understand this request is prioritized for same-day review.</span>
+            </label>
+          </div>
+          <div class="step-nav" style="margin-top: 12px;">
+            <button type="button" class="btn btn-secondary" id="emergency-cancel-btn">Cancel</button>
+            <button type="submit" class="btn btn-danger">Save urgent request</button>
+          </div>
+        </form>
+      </div>
     </div>
 
     <!-- SUCCESS VIEW -->

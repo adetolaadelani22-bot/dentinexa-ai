@@ -1,6 +1,8 @@
 let CURRENT_USER = null;
 let PREVIOUSLY_READY_IDS = new Set(); // appointment ids already alerted this session
+let PREVIOUSLY_EMERGENCY_IDS = new Set(); // emergency ids already alerted this session
 let DISMISSED_READY_IDS = new Set(JSON.parse(sessionStorage.getItem('dc_dismissed_ready') || '[]'));
+let DISMISSED_EMERGENCY_IDS = new Set(JSON.parse(sessionStorage.getItem('dc_dismissed_emergency') || '[]'));
 let READY_POLL_INTERVAL = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -60,45 +62,58 @@ async function pollAppointmentsForReadyAlert() {
 
 function handleReadyAppointments(appointments) {
   const readyNow = appointments.filter(a => a.status === 'ready');
+  const emergencyNow = appointments.filter(a => ['emergency', 'urgent'].includes(a.status));
 
-  // Fire a toast + browser notification the first time we see a *new* ready appointment this session
   readyNow.forEach(a => {
     if (!PREVIOUSLY_READY_IDS.has(a.id)) {
       PREVIOUSLY_READY_IDS.add(a.id);
       if (!DISMISSED_READY_IDS.has(a.id)) {
         showToast(`It's your turn! ${a.dentist_name || 'Your dentist'} is ready to see you.`, 'success', 7000);
-        sendBrowserNotification(a);
+        sendBrowserNotification(a, false);
+      }
+    }
+  });
+
+  emergencyNow.forEach(a => {
+    if (!PREVIOUSLY_EMERGENCY_IDS.has(a.id)) {
+      PREVIOUSLY_EMERGENCY_IDS.add(a.id);
+      if (!DISMISSED_EMERGENCY_IDS.has(a.id)) {
+        showToast('Emergency attention required — please call the clinic immediately.', 'error', 8000);
+        sendBrowserNotification(a, true);
       }
     }
   });
 
   const visibleReady = readyNow.filter(a => !DISMISSED_READY_IDS.has(a.id));
-  renderReadyAlertBanner(visibleReady);
+  const visibleEmergency = emergencyNow.filter(a => !DISMISSED_EMERGENCY_IDS.has(a.id));
+  renderAlertBanners(visibleReady, visibleEmergency);
 
   const navDot = document.getElementById('nav-alert-dot');
-  if (navDot) navDot.classList.toggle('hidden', visibleReady.length === 0);
+  if (navDot) {
+    const showDot = visibleReady.length > 0 || visibleEmergency.length > 0;
+    navDot.classList.toggle('hidden', !showDot);
+    navDot.classList.toggle('emergency', visibleEmergency.length > 0 && visibleReady.length === 0);
+    navDot.classList.toggle('ready', visibleReady.length > 0 && visibleEmergency.length === 0);
+  }
 }
 
-function sendBrowserNotification(appt) {
+function sendBrowserNotification(appt, isEmergency = false) {
   if (!('Notification' in window) || Notification.permission !== 'granted') return;
-  const n = new Notification('DentiNexa AI — It\'s your turn', {
-    body: `${appt.dentist_name || 'Your dentist'} is ready to see you now.`,
-    tag: `dc-ready-${appt.id}`
+  const n = new Notification(isEmergency ? 'DentiNexa AI — Emergency alert' : 'DentiNexa AI — It\'s your turn', {
+    body: isEmergency
+      ? `${appt.dentist_name || 'The clinic'} has flagged this visit as urgent. Please call reception immediately.`
+      : `${appt.dentist_name || 'Your dentist'} is ready to see you now.`,
+    tag: isEmergency ? `dc-emergency-${appt.id}` : `dc-ready-${appt.id}`
   });
   n.onclick = () => { window.focus(); n.close(); };
 }
 
-function renderReadyAlertBanner(readyAppointments) {
+function renderAlertBanners(readyAppointments, emergencyAppointments) {
   const container = document.getElementById('ready-alert-container');
   if (!container) return;
 
-  if (readyAppointments.length === 0) {
-    container.innerHTML = '';
-    return;
-  }
-
-  container.innerHTML = readyAppointments.map(a => `
-    <div class="ready-alert" role="alert">
+  const readyMarkup = readyAppointments.map(a => `
+    <div class="ready-alert" role="alert" data-id="${a.id}">
       <div class="ready-alert-icon">
         <img src="../assets/icons/icon-bell.svg" alt="" width="22" height="22">
       </div>
@@ -111,15 +126,50 @@ function renderReadyAlertBanner(readyAppointments) {
       </div>
     </div>
   `).join('');
+
+  const emergencyMarkup = emergencyAppointments.map(a => `
+    <div class="emergency-alert" role="alert" data-id="${a.id}">
+      <div class="emergency-alert-icon">
+        <img src="../assets/icons/service-emergency.svg" alt="" width="22" height="22">
+      </div>
+      <div class="emergency-alert-body">
+        <strong>Emergency attention required</strong>
+        <span>${escapeHtml(a.dentist_name || 'The clinic')} has flagged this visit as urgent. Please call reception immediately.</span>
+      </div>
+      <div class="emergency-alert-actions">
+        <button class="btn btn-solid-light btn-sm" onclick="dismissEmergencyAlert(${a.id})">Acknowledge</button>
+      </div>
+    </div>
+  `).join('');
+
+  container.innerHTML = `${readyMarkup}${emergencyMarkup}`;
 }
 
 function dismissReadyAlert(appointmentId) {
   DISMISSED_READY_IDS.add(appointmentId);
   sessionStorage.setItem('dc_dismissed_ready', JSON.stringify([...DISMISSED_READY_IDS]));
   const container = document.getElementById('ready-alert-container');
-  if (container) container.innerHTML = '';
+  const row = container ? container.querySelector(`.ready-alert[data-id="${appointmentId}"]`) : null;
+  if (row) row.remove();
   const navDot = document.getElementById('nav-alert-dot');
-  if (navDot) navDot.classList.add('hidden');
+  if (navDot) {
+    const showDot = document.querySelector('.ready-alert') !== null || document.querySelector('.emergency-alert') !== null;
+    navDot.classList.toggle('hidden', !showDot);
+    navDot.classList.toggle('emergency', document.querySelector('.emergency-alert') !== null && document.querySelector('.ready-alert') === null);
+  }
+}
+
+function dismissEmergencyAlert(appointmentId) {
+  DISMISSED_EMERGENCY_IDS.add(appointmentId);
+  sessionStorage.setItem('dc_dismissed_emergency', JSON.stringify([...DISMISSED_EMERGENCY_IDS]));
+  const row = document.querySelector(`.emergency-alert[data-id="${appointmentId}"]`);
+  if (row) row.remove();
+  const navDot = document.getElementById('nav-alert-dot');
+  if (navDot) {
+    const showDot = document.querySelector('.ready-alert') !== null || document.querySelector('.emergency-alert') !== null;
+    navDot.classList.toggle('hidden', !showDot);
+    navDot.classList.toggle('emergency', document.querySelector('.emergency-alert') !== null && document.querySelector('.ready-alert') === null);
+  }
 }
 
 function wireSidebarNav() {

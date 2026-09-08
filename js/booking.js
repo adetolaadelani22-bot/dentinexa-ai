@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   await loadDentistOptions();
   wireStepNav();
+  wireEmergencyModal();
   wireForm();
   updateStepUI();
 });
@@ -43,7 +44,8 @@ async function loadDentistOptions() {
     select.innerHTML = '<option value="">No preference</option>' +
       dentists.map(d => `<option value="${d.id}">${escapeHtml(d.full_name)} — ${escapeHtml(d.specialty || 'General')}</option>`).join('');
   } catch (err) {
-    // Fine to proceed with "No preference" only — this isn't a blocking failure
+    select.innerHTML = '<option value="">No preference</option>';
+    showToast('Dentist availability could not be loaded. You can continue with no preference.', 'warning', 6000);
   }
 }
 
@@ -57,6 +59,64 @@ function wireStepNav() {
   document.getElementById('step-back-btn').addEventListener('click', () => {
     currentStep = Math.max(currentStep - 1, 1);
     updateStepUI();
+  });
+}
+
+function wireEmergencyModal() {
+  const modal = document.getElementById('emergency-modal');
+  const trigger = document.getElementById('emergency-trigger-btn');
+  const closeBtn = document.getElementById('emergency-modal-close');
+  const cancelBtn = document.getElementById('emergency-cancel-btn');
+  const form = document.getElementById('emergency-form');
+  if (!modal || !trigger || !form) return;
+
+  const closeModal = () => {
+    modal.classList.add('hidden');
+    modal.setAttribute('aria-hidden', 'true');
+    form.reset();
+  };
+
+  trigger.addEventListener('click', () => {
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden', 'false');
+  });
+
+  [closeBtn, cancelBtn].filter(Boolean).forEach(btn => btn.addEventListener('click', closeModal));
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) closeModal();
+  });
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const emergencyType = document.getElementById('emergencyType').value.trim();
+    const emergencySeverity = document.getElementById('emergencySeverity').value.trim();
+    const emergencyDescription = document.getElementById('emergencyDescription').value.trim();
+    const emergencyPreferredContact = document.getElementById('emergencyPreferredContact').value.trim();
+    const emergencyConsent = document.getElementById('emergencyConsent').checked;
+
+    if (!emergencyConsent) {
+      showToast('Please confirm that you need urgent dental triage before sending this request.', 'warning', 6000);
+      return;
+    }
+
+    const emergency = {
+      urgent: true,
+      type: emergencyType || 'Urgent dental issue',
+      severity: emergencySeverity || 'Same-day review requested',
+      description: emergencyDescription || 'Urgent care requested',
+      preferredContact: emergencyPreferredContact || 'Not provided',
+      submittedAt: new Date().toISOString()
+    };
+
+    document.getElementById('isEmergency').value = 'true';
+    document.getElementById('emergencySummary').value = JSON.stringify(emergency);
+    document.getElementById('service').value = 'Emergency Dentistry';
+    if (!document.getElementById('reasonForVisit').value.trim()) {
+      document.getElementById('reasonForVisit').value = emergency.description;
+    }
+
+    showToast('Urgent care details saved. Reception will prioritize this request.', 'warning', 6000);
+    closeModal();
   });
 }
 
@@ -169,6 +229,15 @@ function renderReviewSummary() {
   const data = Object.fromEntries(new FormData(form).entries());
   const dentistLabel = document.getElementById('preferredDentist').selectedOptions[0]?.textContent || 'No preference';
 
+  let emergencyDetails = null;
+  if (data.emergencySummary) {
+    try {
+      emergencyDetails = JSON.parse(data.emergencySummary);
+    } catch (err) {
+      emergencyDetails = null;
+    }
+  }
+
   const groups = [
     { title: 'Personal', items: [
       ['Name', [data.firstName, data.middleName, data.lastName].filter(Boolean).join(' ')],
@@ -186,6 +255,19 @@ function renderReviewSummary() {
       ['Reason for visit', data.reasonForVisit]
     ]}
   ];
+
+  if (emergencyDetails) {
+    groups.push({
+      title: 'Urgent dental care',
+      items: [
+        ['Urgent', 'Yes'],
+        ['Issue type', emergencyDetails.type || '—'],
+        ['Severity', emergencyDetails.severity || '—'],
+        ['Description', emergencyDetails.description || '—'],
+        ['Preferred contact', emergencyDetails.preferredContact || '—']
+      ]
+    });
+  }
 
   document.getElementById('review-summary').innerHTML = groups.map(g => `
     <div class="review-group">
@@ -216,6 +298,7 @@ function wireForm() {
     const form = e.target;
     const data = Object.fromEntries(new FormData(form).entries());
     data.consent = data.consent === 'on';
+    data.isEmergency = data.isEmergency === 'true';
 
     let reference = null;
     let formspreeSent = false;

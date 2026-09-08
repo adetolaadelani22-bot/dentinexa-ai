@@ -80,6 +80,8 @@ function statusBadgeClass(status) {
     confirmed: 'badge-blue',
     checked_in: 'badge-teal',
     ready: 'badge-alert',
+    urgent: 'badge-danger',
+    emergency: 'badge-danger',
     completed: 'badge-emerald',
     cancelled: 'badge-gray',
     no_show: 'badge-danger',

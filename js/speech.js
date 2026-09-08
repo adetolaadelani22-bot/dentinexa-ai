@@ -20,7 +20,8 @@
 
 function speechRecognitionSupportInfo() {
   const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const isSecureContext = window.isSecureContext; // false under file://, true under https:// or localhost
+  const isLocalhost = ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname);
+  const isSecureContext = window.isSecureContext || isLocalhost; // file:// is not secure; https:// and localhost are
   return {
     hasApi: !!SpeechRecognitionCtor,
     isSecureContext,
@@ -65,36 +66,56 @@ function attachVoiceButton(field, support) {
   let listening = false;
 
   btn.addEventListener('click', () => {
-    if (listening) { recognition.stop(); return; }
+    if (listening) {
+      if (recognition && typeof recognition.stop === 'function') recognition.stop();
+      return;
+    }
 
-    recognition = new support.Ctor();
-    recognition.lang = document.documentElement.lang || 'en-US';
-    recognition.interimResults = true;
-    recognition.continuous = false;
+    try {
+      recognition = new support.Ctor();
+      recognition.lang = document.documentElement.lang || 'en-US';
+      recognition.interimResults = true;
+      recognition.continuous = false;
 
-    const baseText = field.value ? field.value.replace(/\s*$/, ' ') : '';
+      const baseText = field.value ? field.value.replace(/\s*$/, ' ') : '';
 
-    recognition.onstart = () => {
-      listening = true;
-      btn.classList.add('voice-btn-listening');
-      wrap.classList.add('voice-listening');
-    };
-    recognition.onerror = (e) => {
-      showToast(e.error === 'not-allowed' ? 'Microphone access was blocked.' : 'Voice input error — please try again.', 'error');
-    };
-    recognition.onresult = (e) => {
-      let transcript = '';
-      for (let i = 0; i < e.results.length; i++) transcript += e.results[i][0].transcript;
-      field.value = baseText + transcript;
-    };
-    recognition.onend = () => {
+      recognition.onstart = () => {
+        listening = true;
+        btn.classList.add('voice-btn-listening');
+        wrap.classList.add('voice-listening');
+      };
+      recognition.onerror = (e) => {
+        const message = e && e.error === 'not-allowed'
+          ? 'Microphone access was blocked. Please allow mic access and try again.'
+          : 'Voice input error — please try again.';
+        showToast(message, 'error');
+        listening = false;
+        btn.classList.remove('voice-btn-listening');
+        wrap.classList.remove('voice-listening');
+      };
+      recognition.onresult = (e) => {
+        let transcript = '';
+        for (let i = 0; i < e.results.length; i++) transcript += e.results[i][0].transcript;
+        field.value = baseText + transcript;
+      };
+      recognition.onend = () => {
+        listening = false;
+        btn.classList.remove('voice-btn-listening');
+        wrap.classList.remove('voice-listening');
+        field.focus(); // land the cursor in the field so it's obviously still editable
+        recognition = null;
+      };
+
+      recognition.start();
+    } catch (error) {
+      const message = error && error.name === 'NotAllowedError'
+        ? 'Microphone access was blocked. Please allow the browser to use your microphone.'
+        : 'Voice input could not start in this browser. Please try again or use a supported browser.';
+      showToast(message, 'warning', 6000);
       listening = false;
       btn.classList.remove('voice-btn-listening');
       wrap.classList.remove('voice-listening');
-      field.focus(); // land the cursor in the field so it's obviously still editable
-    };
-
-    recognition.start();
+    }
   });
 }
 

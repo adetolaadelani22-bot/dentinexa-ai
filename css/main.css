@@ -196,6 +196,65 @@ ul { padding: 0; margin: 0; list-style: none; }
   box-shadow: var(--shadow-sm);
 }
 
+/* ============ EMERGENCY ALERT ============ */
+.emergency-banner-wrap {
+  padding-top: 18px;
+}
+.emergency-banner {
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  background: linear-gradient(135deg, var(--danger), #9d2d2a);
+  color: #fff; border-radius: var(--radius-md); padding: 16px 20px;
+  box-shadow: var(--shadow-md); border: 1px solid rgba(255,255,255,0.16);
+  animation: emergency-banner-pulse 1.8s ease-in-out infinite;
+}
+@keyframes emergency-banner-pulse {
+  0%, 100% { box-shadow: var(--shadow-md), 0 0 0 0 rgba(196, 69, 58, 0.35); }
+  50% { box-shadow: var(--shadow-md), 0 0 0 12px rgba(196, 69, 58, 0); }
+}
+.emergency-banner-label {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.12); color: #fff; border-radius: 999px;
+  padding: 6px 12px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em;
+  text-transform: uppercase; flex-shrink: 0;
+}
+.emergency-banner-text {
+  display: flex; flex: 1; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;
+  font-size: 0.95rem; color: rgba(255,255,255,0.96);
+}
+.emergency-banner-text strong { font-size: 1rem; }
+.emergency-banner .btn-danger {
+  background: #fff; color: var(--danger); border-color: #fff;
+  box-shadow: none;
+}
+.emergency-banner .btn-danger:hover {
+  background: #fff; opacity: 0.96; text-decoration: none;
+}
+
+.emergency-trigger {
+  margin: 0 0 16px;
+}
+.emergency-modal-overlay {
+  position: fixed; inset: 0; background: rgba(11, 20, 18, 0.6); display: flex; align-items: center; justify-content: center; z-index: 1400; padding: 20px;
+}
+.emergency-modal {
+  width: min(560px, 100%); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 28px;
+}
+.emergency-modal-header {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 16px;
+}
+.emergency-modal-header h3 { margin: 0; }
+.emergency-modal-close {
+  border: none; background: transparent; color: var(--text-muted); font-size: 1.6rem; line-height: 1; cursor: pointer;
+}
+.emergency-modal-grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px;
+}
+@media (max-width: 560px) {
+  .emergency-modal-grid { grid-template-columns: 1fr; }
+  .emergency-banner { flex-direction: column; align-items: flex-start; }
+  .emergency-banner-text { width: 100%; }
+}
+
 /* ============ BADGES ============ */
 .badge {
   display: inline-flex; align-items: center; gap: 6px;

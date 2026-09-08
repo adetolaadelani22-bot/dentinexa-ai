@@ -53,9 +53,37 @@ async function loadSchedule() {
         </td>
       </tr>
     `).join('') : `<tr><td colspan="6"><div class="empty-state">No upcoming appointments.</div></td></tr>`;
+
+    renderUrgentAlerts(appointments);
   } catch (err) {
     showToast(extractErrorMessage(err), 'error');
   }
+}
+
+function renderUrgentAlerts(appointments = []) {
+  const container = document.getElementById('urgent-alert-container');
+  if (!container) return;
+
+  const urgentAppointments = (appointments.length ? appointments : []).filter(a => ['urgent', 'emergency'].includes(String(a.status || '').toLowerCase()));
+  const urgentItems = urgentAppointments.map(a => ({
+    title: 'Emergency appointment',
+    detail: `${a.patient_name || 'Patient'} • ${formatDate(a.appointment_date)} • ${formatTime(a.appointment_time)}`
+  }));
+
+  if (!urgentItems.length) {
+    container.innerHTML = '';
+    return;
+  }
+
+  container.innerHTML = urgentItems.map(item => `
+    <div class="emergency-alert">
+      <div class="emergency-alert-icon">!</div>
+      <div class="emergency-alert-body">
+        <strong>${escapeHtml(item.title)}</strong>
+        <span>${escapeHtml(item.detail)}</span>
+      </div>
+    </div>
+  `).join('');
 }
 
 async function setAppointmentStatus(id, status) {

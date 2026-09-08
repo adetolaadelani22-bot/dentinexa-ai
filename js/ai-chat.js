@@ -172,21 +172,40 @@ function wireChatMicButton(btn, input) {
 
   let recognition = null, listening = false;
   btn.addEventListener('click', () => {
-    if (listening) { recognition.stop(); return; }
-    recognition = new support.Ctor();
-    recognition.lang = 'en-US';
-    recognition.interimResults = true;
-    recognition.continuous = false;
-    const base = input.value ? input.value.replace(/\s*$/, ' ') : '';
+    if (listening) {
+      if (recognition && typeof recognition.stop === 'function') recognition.stop();
+      return;
+    }
 
-    recognition.onstart = () => { listening = true; btn.classList.add('voice-btn-listening'); };
-    recognition.onresult = (e) => {
-      let t = '';
-      for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript;
-      input.value = base + t;
-    };
-    recognition.onerror = () => showToast('Voice input error — please try again.', 'error');
-    recognition.onend = () => { listening = false; btn.classList.remove('voice-btn-listening'); input.focus(); };
-    recognition.start();
+    try {
+      recognition = new support.Ctor();
+      recognition.lang = 'en-US';
+      recognition.interimResults = true;
+      recognition.continuous = false;
+      const base = input.value ? input.value.replace(/\s*$/, ' ') : '';
+
+      recognition.onstart = () => { listening = true; btn.classList.add('voice-btn-listening'); };
+      recognition.onresult = (e) => {
+        let t = '';
+        for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript;
+        input.value = base + t;
+      };
+      recognition.onerror = () => {
+        showToast('Voice input error — please try again.', 'error');
+        listening = false;
+        btn.classList.remove('voice-btn-listening');
+      };
+      recognition.onend = () => {
+        listening = false;
+        btn.classList.remove('voice-btn-listening');
+        input.focus();
+        recognition = null;
+      };
+      recognition.start();
+    } catch (error) {
+      showToast('Voice input could not start in this browser. Please allow mic access and try again.', 'warning', 6000);
+      listening = false;
+      btn.classList.remove('voice-btn-listening');
+    }
   });
 }
